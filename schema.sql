@@ -37,3 +37,26 @@ ALTER TABLE animals
   ADD COLUMN owner_id INT REFERENCES owners(id);
 
 COMMIT;
+
+-- Join visits
+CREATE TABLE vets (
+    id INT GENERATED ALWAYS AS IDENTITY,
+    name VARCHAR(100) NOT NULL,
+    age INT NOT NULL,
+    date_of_graduation DATE NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE specializations (
+    species_id INT REFERENCES species (id) ON DELETE CASCADE,
+    vets_id INT REFERENCES vets (id) ON DELETE CASCADE,
+    PRIMARY KEY(species_id,vets_id)
+);
+
+CREATE TABLE visits (
+    id INT GENERATED ALWAYS AS IDENTITY,
+    animals_id INT REFERENCES animals (id) ON DELETE CASCADE,
+    vets_id INT REFERENCES vets (id) ON DELETE CASCADE,
+    date DATE NOT NULL,
+    PRIMARY KEY(id)
+);
