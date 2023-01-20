@@ -37,3 +37,26 @@ ALTER TABLE animals
   ADD COLUMN owner_id INT REFERENCES owners(id);
 
 COMMIT;
+
+-- Join visits
+CREATE TABLE vets (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    age INT NOT NULL,
+    date_of_graduation DATE NOT NULL
+);
+
+-- many-to-many join-table
+CREATE TABLE specializations (
+   species_id INTEGER REFERENCES species(id),
+   vet_id INTEGER REFERENCES vets(id),
+   UNIQUE (species_id, vet_id)
+);
+
+-- many-to-many join-table
+CREATE TABLE visits (
+   animal_id INTEGER REFERENCES animals(id),
+   vet_id INTEGER REFERENCES vets(id),
+   date_of_visits DATE NOT NULL,
+   UNIQUE (animal_id, vet_id, date_of_visits)
+);
