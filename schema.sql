@@ -40,23 +40,23 @@ COMMIT;
 
 -- Join visits
 CREATE TABLE vets (
-    id INT GENERATED ALWAYS AS IDENTITY,
-    name VARCHAR(100) NOT NULL,
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
     age INT NOT NULL,
-    date_of_graduation DATE NOT NULL,
-    PRIMARY KEY(id)
+    date_of_graduation DATE NOT NULL
 );
 
+-- many-to-many join-table
 CREATE TABLE specializations (
-    species_id INT REFERENCES species (id) ON DELETE CASCADE,
-    vets_id INT REFERENCES vets (id) ON DELETE CASCADE,
-    PRIMARY KEY(species_id,vets_id)
+   species_id INTEGER REFERENCES species(id),
+   vet_id INTEGER REFERENCES vets(id),
+   UNIQUE (species_id, vet_id)
 );
 
+-- many-to-many join-table
 CREATE TABLE visits (
-    id INT GENERATED ALWAYS AS IDENTITY,
-    animals_id INT REFERENCES animals (id) ON DELETE CASCADE,
-    vets_id INT REFERENCES vets (id) ON DELETE CASCADE,
-    date DATE NOT NULL,
-    PRIMARY KEY(id)
+   animal_id INTEGER REFERENCES animals(id),
+   vet_id INTEGER REFERENCES vets(id),
+   date_of_visits DATE NOT NULL,
+   UNIQUE (animal_id, vet_id, date_of_visits)
 );
